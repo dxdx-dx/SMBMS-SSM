@@ -1,2 +1,2 @@
 # SMBMS-SSM
-使用SSM改造超市订单管理系统
+超市订单管理系统-spring+spring MVC +mybatis
