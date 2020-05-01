@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bdqn.smbms.dao.BillMapper">
+    <!--分页查询订单列表-->
+    <select id="findByPage" resultType="Bill">
+        SELECT b.*,p.`proName` as providerName FROM `smbms_bill` b,`smbms_provider` p WHERE b.`providerId`=p.`id`
+        <if test="productName!=null and productName!=''">AND b.productName LIKE CONCAT('%',#{productName},'%')</if>
+        <if test="providerId>0">AND b.`providerId`=#{providerId}</if>
+        <if test="isPayment>0">AND b.`isPayment`=#{isPayment}</if>
+        ORDER BY b.`creationDate` DESC LIMIT #{pageNo},#{pageSize}
+    </select>
+    <!--查询订单总条数-->
+    <select id="findByPageCount" resultType="Integer">
+        SELECT count(1) FROM `smbms_bill`
+        <where>
+            <if test="productName!=null and productName!=''">AND `productName` LIKE CONCAT('%',#{productName},'%')</if>
+            <if test="providerId>0">AND `providerId`=#{providerId}</if>
+            <if test="isPayment>0
+">AND `isPayment`=#{isPayment}</if>
+        </where>
+    </select>
+    <!--根据id查询订单-->
+    <select id="findBillById" resultType="Bill">
+        SELECT b.*,p.`proName` as providerName  FROM  `smbms_bill` b,`smbms_provider` p
+        WHERE b.`providerId`=p.`id` and b.id=#{id}
+    </select>
+    <!--添加订单-->
+    <insert id="addBill" parameterType="Bill">
+        INSERT INTO `smbms`.`smbms_bill` ( `billCode`, `productName`, `productDesc`,
+        `productUnit`, `productCount`,`totalPrice`,`isPayment`, `createdBy`, `creationDate`,
+        `providerId`) VALUES (#{billCode}, #{productName}, #{productDesc}, #{productUnit},
+         #{productCount}, #{totalPrice}, #{isPayment}, #{createdBy}, #{creationDate}, #{providerId})
+    </insert>
+    <!--修改订单-->
+    <update id="billModify" parameterType="Bill">
+        UPDATE `smbms`.`smbms_bill` SET `billCode` = #{billCode},`productName` = #{productName},
+        `productDesc` = #{productDesc},
+        `productUnit` =#{productUnit},
+        `productCount` = #{productCount},
+        `totalPrice` =#{totalPrice},
+        `isPayment` = #{isPayment},
+        `modifyBy` = #{modifyBy},
+        `modifyDate` =#{modifyDate},
+        `providerId` = #{providerId}
+        WHERE `id` = #{id}
+    </update>
+    <!--删除订单-->
+    <delete id="delbill">
+        DELETE FROM`smbms`.`smbms_bill` WHERE `id` = #{id}
+    </delete>
+</mapper>

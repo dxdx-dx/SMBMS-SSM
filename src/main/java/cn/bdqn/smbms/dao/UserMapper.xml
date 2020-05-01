@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bdqn.smbms.dao.UserMapper">
+    <!--根据UserCode查询用户-->
+    <select id="findByUserCode" resultType="User">
+        SELECT * FROM `smbms_user` WHERE `userCode`=#{userCode}
+    </select>
+    <!--分页查询用户列表-->
+    <select id="findByPage" resultType="User">
+        SELECT u.*,r.roleName as userRoleName FROM `smbms_role` r,`smbms_user` u WHERE r.id=u.`userRole`
+        <if test="userName!=null and userName!=''">
+            AND `userName` LIKE CONCAT('%',#{userName},'%')
+        </if>
+        <if test="userRole!=null and userRole!=''">
+            AND `userRole`=#{userRole}
+        </if>
+        ORDER BY `creationDate`DESC LIMIT #{pageNo},#{pageSize}
+    </select>
+    <!--查询用户总条数-->
+    <select id="findByPageCount" resultType="int">
+        SELECT count(1) FROM `smbms_user` u
+        <where>
+            <if test="userName!=null and userName!=''">
+                AND `userName` LIKE CONCAT('%',#{userName},'%')
+            </if>
+            <if test="userRole!=null and userRole!=''">
+                AND u.`userRole`=#{userRole}
+            </if>
+        </where>
+    </select>
+    <!--添加用户-->
+    <insert id="adduser" parameterType="User">
+        INSERT INTO `smbms`.`smbms_user` (`userCode`,`userName`, `userPassword`, `gender`,`birthday`,
+        `phone`, `address`,`userRole`,`createdBy`,`creationDate`,idPicPath,workPicPath)
+        VALUES( #{userCode},  #{userName},  #{userPassword},  #{gender}, #{birthday},  #{phone},
+         #{address}, #{userRole}, #{createdBy}, #{creationDate}, #{idPicPath}, #{workPicPath})
+    </insert>
+    <!--根据id查询用户-->
+    <select id="findUserById" resultType="User">
+        SELECT u.* ,r.`roleName` as userRoleName FROM `smbms_user` u,`smbms_role` r WHERE u.`userRole`= r.`id` AND u.id= #{id}
+    </select>
+    <!--修改用户-->
+    <update id="modifyUser" parameterType="User">
+        UPDATE   `smbms`.`smbms_user` SET `userName` =  #{userName},
+        `gender` =  #{gender},  `birthday` =  #{birthday},  `phone` = #{phone},  `address` =  #{address},
+        `userRole` = #{userRole}, `modifyBy` = #{modifyBy},`modifyDate` =  #{modifyDate} WHERE `id` = #{id}
+    </update>
+    <!--删除用户-->
+    <delete id="deluser">
+        DELETE FROM`smbms`.`smbms_user` WHERE `id` =  #{id}
+    </delete>
+    <!--根据id修改密码-->
+    <update id="modifyPwd">
+        UPDATE smbms_user SET userPassword =  #{newPwd} WHERE id = #{id}
+    </update>
+</mapper>
