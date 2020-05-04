@@ -1,6 +1,7 @@
 package cn.bdqn.smbms.pojo;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -16,6 +17,9 @@ public class User implements Serializable {
     private String userName; // 用户名称
     private String userPassword; // 用户密码
     private Integer gender; // 性别
+    //@DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JSONField(format = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthday; // 出生日期
     private String phone; // 电话
     private String address; // 地址
@@ -28,6 +32,29 @@ public class User implements Serializable {
     private String workPicPath; // 工作照
     private Integer age;//年龄
     private String userRoleName;//角色名称
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", userCode='" + userCode + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                ", gender=" + gender +
+                ", birthday=" + birthday +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", userRole=" + userRole +
+                ", createdBy=" + createdBy +
+                ", creationDate=" + creationDate +
+                ", modifyBy=" + modifyBy +
+                ", modifyDate=" + modifyDate +
+                ", idPicPath='" + idPicPath + '\'' +
+                ", workPicPath='" + workPicPath + '\'' +
+                ", age=" + age +
+                ", userRoleName='" + userRoleName + '\'' +
+                '}';
+    }
 
     public String getIdPicPath() {
         return idPicPath;

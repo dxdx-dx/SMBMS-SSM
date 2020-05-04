@@ -124,7 +124,8 @@ public class UserController {
         pageSupport.setTotalCount(tatalCount);
         //查询用户列表
         List<User> userList = userService.findByPage(queryname, _queryUserRole, _pageIndex, pageSupport.getPageSize());
-       /* for (User user : userList) {
+        //System.out.println(userList);
+        /* for (User user : userList) {
             System.out.println(user.getBirthday());
             System.out.println(new Date().getYear() - user.getBirthday().getYear());
         }*/

@@ -32,7 +32,9 @@
             </div>
             <div>
                 <label for="birthday">出生日期：</label>
-                <input type="text" Class="Wdate" id="birthday" name="birthday" value="${user.birthday }"
+                <input type="text" Class="Wdate" id="birthday" name="birthday"
+                       value="<fmt:formatDate value='${user.birthday }' pattern='yyyy-MM-dd'/>"
+                <%--value="${user.birthday } --%>
                        readonly="readonly" onclick="WdatePicker();">
                 <font color="red"></font>
             </div>
