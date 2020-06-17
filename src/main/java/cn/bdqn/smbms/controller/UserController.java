@@ -71,7 +71,8 @@ public class UserController {
      * @date 2020/4/28 21:05
      */
     @RequestMapping(value = "/doLogin", method = RequestMethod.POST)
-    public String doLogin(@RequestParam String userCode, @RequestParam String userPassword, HttpSession sesion, HttpServletRequest request) {
+    public String doLogin(@RequestParam String userCode, @RequestParam String userPassword,
+                          HttpSession sesion, HttpServletRequest request) {
         User user = userService.login(userCode, userPassword);
         if (user != null) {
             if (sesion.getAttribute(Constants.USER_SESSION) != null) {
